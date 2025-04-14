@@ -1,0 +1,262 @@
+// --- Variables (Use shared variables if available, or define here) ---
+$primary-color: #4a90e2;
+$text-color: #444;
+$light-text-color: #777;
+$border-color: #ccc;
+$input-bg: #fff;
+$input-focus-border: $primary-color;
+$input-focus-shadow: 0 0 0 3px rgba($primary-color, 0.2);
+$error-color: #d0021b;
+$success-color: #28a745;
+$container-bg: #f8f9fa; // Light background for the form container
+$section-bg: #ffffff; // Background for form sections
+
+$spacing-unit: 1rem;
+$border-radius: 6px; // Slightly smaller radius for form elements
+
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+
+// --- Mixins ---
+@mixin transition($properties...) {
+  transition: $properties 0.2s ease-in-out;
+}
+
+// --- Main Form Container ---
+.profile-form-container {
+  max-width: 900px; // Allow more width for potential side-by-side sections
+  margin: $spacing-unit * 2 auto;
+  padding: $spacing-unit * 1.5;
+  background-color: $container-bg;
+  border-radius: $border-radius * 1.5;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  font-family: sans-serif;
+
+  h2 {
+    text-align: center;
+    color: $primary-color;
+    margin: 0 auto $spacing-unit * 2 auto; // Add margin top/bottom
+    font-size: 2em;
+    font-weight: 400;
+    padding-bottom: $spacing-unit;
+    border-bottom: 1px solid lighten($border-color, 10%);
+    max-width: 80%; // Don't let title get too wide
+  }
+
+  // --- Form Element ---
+  form {
+    display: block; // Default block display
+
+    // --- Form Sections (Personal/Nominee) ---
+    .form-section {
+      background-color: $section-bg;
+      padding: $spacing-unit * 2;
+      margin-bottom: $spacing-unit * 2;
+      border: 1px solid $border-color;
+      border-radius: $border-radius;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+
+      &:last-of-type {
+        margin-bottom: $spacing-unit * 1.5; // Reduce margin after last section
+      }
+
+      h3 {
+        font-size: 1.5em;
+        color: darken($primary-color, 5%);
+        margin-top: 0;
+        margin-bottom: $spacing-unit * 1.8;
+        padding-bottom: $spacing-unit * 0.8;
+        border-bottom: 1px solid lighten($border-color, 5%);
+        font-weight: 500;
+      }
+    }
+
+    // --- Field Groups ---
+    .form-group {
+      margin-bottom: $spacing-unit * 1.5; // Spacing between fields
+
+      label {
+        display: block;
+        margin-bottom: $spacing-unit * 0.5;
+        color: $text-color;
+        font-weight: 500;
+        font-size: 0.95em;
+      }
+
+      input[type="text"],
+      input[type="date"],
+      input[type="number"],
+      input[type="email"] {
+        display: block;
+        width: 100%;
+        padding: $spacing-unit * 0.8 $spacing-unit; // Adjust padding
+        border: 1px solid $border-color;
+        border-radius: $border-radius;
+        font-size: 1em;
+        color: $text-color;
+        background-color: $input-bg;
+        box-sizing: border-box; // Include padding and border in width
+        @include transition(border-color, box-shadow);
+
+        &:focus {
+          outline: none;
+          border-color: $input-focus-border;
+          box-shadow: $input-focus-shadow;
+        }
+
+        // Hide number input arrows (optional)
+        &[type="number"] {
+          --moz-appearance: textfield;
+          &::-webkit-outer-spin-button,
+          &::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+          }
+        }
+      }
+
+      // Style placeholder text (optional)
+      input::placeholder {
+        color: $light-text-color;
+        opacity: 0.8;
+      }
+
+      // --- File Input Styling ---
+      input[type="file"] {
+        display: block;
+        width: 100%;
+        padding: $spacing-unit * 0.3; // Reduced padding for file input container
+        font-size: 0.9em;
+        color: $light-text-color;
+        border: 1px dashed $border-color; // Dashed border to indicate dropzone-like area
+        border-radius: $border-radius;
+        background-color: lighten($container-bg, 2%);
+        cursor: pointer;
+
+        @include transition(border-color, background-color);
+
+        &:hover {
+            border-color: darken($border-color, 10%);
+             background-color: lighten($container-bg, 0%);
+        }
+
+        &::file-selector-button {
+          padding: $spacing-unit * 0.6 $spacing-unit * 1.2;
+          margin-right: $spacing-unit;
+          border: none;
+          border-radius: $border-radius / 1.5;
+          background-color: $primary-color;
+          color: #fff;
+          font-weight: 500;
+          cursor: pointer;
+          @include transition(background-color);
+
+          &:hover {
+            background-color: darken($primary-color, 10%);
+          }
+        }
+      }
+    } // end .form-group
+
+    // --- Submit Button ---
+    .submit-button {
+      display: block;
+      width: 100%; // Full width by default
+      padding: $spacing-unit * 0.9 $spacing-unit * 1.5;
+      background-color: $success-color; // Use success color for submit
+      color: #fff;
+      border: none;
+      border-radius: $border-radius;
+      font-size: 1.15em;
+      font-weight: 500;
+      cursor: pointer;
+      text-align: center;
+      margin-top: $spacing-unit;
+      @include transition(background-color, transform, box-shadow);
+      box-shadow: 0 2px 5px rgba(darken($success-color, 10%), 0.2);
+
+
+      &:hover {
+        background-color: darken($success-color, 10%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(darken($success-color, 10%), 0.3);
+      }
+
+      &:active {
+        background-color: darken($success-color, 15%);
+        transform: translateY(0);
+         box-shadow: 0 2px 5px rgba(darken($success-color, 10%), 0.2);
+      }
+
+      &:disabled {
+        background-color: lighten($success-color, 20%);
+        cursor: not-allowed;
+         box-shadow: none;
+         transform: none;
+      }
+    }
+  } // end form
+
+  // --- Messages ---
+  .message {
+    padding: $spacing-unit * 0.8 $spacing-unit;
+    margin-top: $spacing-unit * 1.5;
+    border-radius: $border-radius;
+    text-align: center;
+    font-weight: 500;
+    font-size: 0.95em;
+
+    &.error {
+      color: $error-color;
+      background-color: lighten($error-color, 45%);
+      border: 1px solid lighten($error-color, 30%);
+    }
+
+    &.success {
+      color: darken($success-color, 15%);
+      background-color: lighten($success-color, 48%);
+      border: 1px solid lighten($success-color, 35%);
+    }
+  }
+
+  // --- Responsive Adjustments ---
+  @media (min-width: $breakpoint-md) {
+    padding: $spacing-unit * 2.5; // More padding on larger screens
+
+    form {
+      // Use Grid to place sections side-by-side
+      display: grid;
+      grid-template-columns: 1fr 1fr; // Two equal columns for the sections
+      gap: $spacing-unit * 2.5; // Gap between sections
+      align-items: start; // Align sections to the top
+
+      .form-section {
+        margin-bottom: 0; // Grid gap handles spacing
+      }
+
+      // Optional: Arrange specific fields side-by-side within a section
+      // .form-group-inline { // Needs adding this class in JSX to wrap pairs of form-groups
+      //    display: grid;
+      //    grid-template-columns: 1fr 1fr;
+      //    gap: $spacing-unit * 1.5;
+      //    align-items: end; // Align items based on input bottom edge
+      // }
+
+      // Button spans both columns
+      .submit-button {
+        grid-column: 1 / -1; // Span full width of the grid
+        width: auto; // Reset width
+        max-width: 250px; // Limit max width
+        margin: $spacing-unit * 1.5 auto 0 auto; // Center button
+      }
+    }
+  }
+
+  @media (max-width: ($breakpoint-md - 1px)) {
+    // Mobile/Tablet Portrait specific adjustments if needed
+    padding: $spacing-unit * 1.5;
+    h2 { font-size: 1.8em; }
+    .form-section h3 { font-size: 1.3em; }
+  }
+}

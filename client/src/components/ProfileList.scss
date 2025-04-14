@@ -1,0 +1,180 @@
+// --- Variables ---
+$primary-color: #4a90e2; // A nice blue
+$secondary-color: #f5a623; // Accent orange/gold
+$text-color: #444;
+$light-text-color: #777;
+$border-color: #ddd;
+$card-bg: #ffffff;
+$error-color: #d0021b; // Red for errors
+$success-color: #7ed321; // Optional success color
+
+$spacing-unit: 1rem; // Base spacing unit (e.g., 16px)
+$border-radius: 8px;
+$card-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+$card-hover-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+
+$image-size: 120px; // Default image size
+$image-size-small: 80px; // Image size for smaller sections if needed
+
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+
+// --- Mixins (Optional but helpful) ---
+@mixin transition($properties...) {
+  transition: $properties 0.3s ease-in-out;
+}
+
+// --- Main Container ---
+.profile-list-container {
+  padding: $spacing-unit * 1.5 $spacing-unit;
+  max-width: 1100px; // Limit max width for large screens
+  margin: 0 auto; // Center the container
+  font-family: sans-serif; // Use a clean sans-serif font
+
+  h2 {
+    text-align: center;
+    color: $primary-color;
+    margin-bottom: $spacing-unit * 2.5;
+    font-size: 2em;
+    font-weight: 300; // Lighter font weight for heading
+  }
+
+  .error-message {
+    color: $error-color;
+    background-color: lighten($error-color, 45%);
+    border: 1px solid lighten($error-color, 30%);
+    padding: $spacing-unit;
+    margin-bottom: $spacing-unit * 1.5;
+    border-radius: $border-radius / 2;
+    text-align: center;
+  }
+}
+
+// --- Profile Card ---
+.profile-card {
+  background-color: $card-bg;
+  border: 1px solid $border-color;
+  border-radius: $border-radius;
+  margin-bottom: $spacing-unit * 2;
+  padding: $spacing-unit * 1.5;
+  box-shadow: $card-shadow;
+  @include transition(transform, box-shadow);
+  overflow: hidden; // Ensure content respects border-radius
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: $card-hover-shadow;
+  }
+
+  // --- Card Sections (Personal & Nominee) ---
+  .profile-section {
+    margin-bottom: $spacing-unit * 2;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    h3 {
+      font-size: 1.3em;
+      color: $primary-color;
+      margin: 0 0 $spacing-unit 0; // Reset margin top
+      padding-bottom: $spacing-unit * 0.5;
+      border-bottom: 1px solid $border-color;
+      font-weight: 500;
+    }
+
+    // --- Inner Layout (Image + Details) ---
+    .details-wrapper {
+      display: flex;
+      flex-direction: column; // Stack image and text by default
+      align-items: flex-start; // Align items to the start
+
+      img {
+        display: block;
+        width: $image-size;
+        height: $image-size;
+        object-fit: cover; // Crop image nicely
+        border-radius: 50%; // Circular images
+        margin-bottom: $spacing-unit;
+        border: 3px solid $border-color; // Image border
+      }
+
+      .info {
+        p {
+          margin: 0 0 $spacing-unit * 0.5 0;
+          color: $text-color;
+          line-height: 1.5;
+
+          strong { // Style the label part
+              color: $light-text-color;
+              margin-right: $spacing-unit * 0.5;
+              display: inline-block;
+              min-width: 40px; // Align values slightly
+          }
+        }
+      }
+    }
+  }
+
+  // --- Responsive Adjustments ---
+
+  // Medium screens and up (Tablets+)
+  @media (min-width: $breakpoint-md) {
+    padding: $spacing-unit * 2;
+
+    .profile-section {
+      .details-wrapper {
+        flex-direction: row; // Side-by-side layout
+        align-items: center; // Center items vertically
+
+        img {
+          margin-right: $spacing-unit * 1.5;
+          margin-bottom: 0; // No bottom margin when side-by-side
+        }
+      }
+    }
+
+    // Optional: Create two columns for personal/nominee info side-by-side
+    display: grid;
+    grid-template-columns: 1fr 1fr; // Two equal columns
+    gap: $spacing-unit * 2.5; // Space between columns
+    align-items: start; // Align sections to the top
+
+    .profile-section {
+        margin-bottom: 0; // No bottom margin needed when in grid
+    }
+  }
+
+   // Small screens (Larger mobiles) - adjust if needed
+  @media (min-width: $breakpoint-sm) and (max-width: ($breakpoint-md - 1px)) {
+     .profile-section {
+        .details-wrapper {
+            img {
+                width: $image-size-small; // Slightly smaller image
+                height: $image-size-small;
+            }
+        }
+     }
+  }
+
+  // Extra Small screens (Mobiles) - already handled by default column flex direction
+  @media (max-width: ($breakpoint-sm - 1px)) {
+    padding: $spacing-unit;
+     .profile-section {
+        h3 {
+            font-size: 1.15em;
+        }
+        .details-wrapper {
+            align-items: center; // Center items on small screens
+             img {
+                width: $image-size-small;
+                height: $image-size-small;
+            }
+            .info p {
+                font-size: 0.9em; // Slightly smaller text
+            }
+        }
+     }
+  }
+}
