@@ -10,7 +10,7 @@ const ProfileList = () => {
   useEffect(() => {
     const fetchProfiles = async () => {
       try {
-        const response = await axios.get("http://localhost:1525/api/profiles" || "/api/profiles");
+        const response = await axios.get("/api/profiles" || "http://localhost:1525/api/profiles");
         setProfiles(response.data);
         setError(""); // Clear previous errors on success
       } catch (err) {
