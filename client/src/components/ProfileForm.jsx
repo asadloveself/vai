@@ -63,7 +63,7 @@ const ProfileForm = () => {
     if (nomineeImage) formData.append("nomineeImage", nomineeImage);
 
     try {
-      const response = await axios.post("http://localhost:1525/api/profile/info" || "/api/profile/info", formData, {
+      const response = await axios.post("/api/profile/info" || "http://localhost:1525/api/profile/info", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       setMessage(response.data.message || "Profile saved successfully!");
