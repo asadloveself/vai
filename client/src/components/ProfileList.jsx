@@ -34,7 +34,7 @@ const ProfileList = () => {
       {profiles.map((profile, index) => (
         <div key={profile._id} className="profile-card">
           {/* Add serial number */}
-          <div className="serial-number">#{index + 1}</div>
+          <div className="serial-number">{index + 1}</div>
 
           {/* Personal Information Section */}
           <div className="profile-section">
