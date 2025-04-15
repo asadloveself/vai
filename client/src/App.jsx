@@ -1,34 +1,12 @@
 import './App.css';
-import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
+import { BrowserRouter, Routes, Route} from 'react-router-dom';
 import ProfileForm from './components/ProfileForm';
-import ProfileList from './components/ProfileList';
-import './ProfileNav.scss'
-import cover from "./assets/cover.jpg"
+import ProfileList from './components/ProfileList'; 
+import ProfileNav from './ProfileNav';
 
 function HomePage() {
   return (
-
-    <>  
-    
-      <nav className="profile"> {/* Ensure class name matches SCSS */}
-        <ul>
-          <li>
-            {/* Use NavLink instead of Link */}
-            <NavLink to="/user/join">Join</NavLink>
-          </li>
-          <li>
-            <NavLink to="/user/profiles">All Members</NavLink>
-          </li>
-        </ul>
-        <h1>
-      Vai Group: Join Now. 
-    </h1>
-      </nav>
-      
-
-
-      </>
-
+    <ProfileNav/>
   );
 }
 

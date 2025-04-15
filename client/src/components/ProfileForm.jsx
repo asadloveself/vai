@@ -2,6 +2,7 @@
 import { useState } from "react";
 import axios from "axios";
 import './ProfileForm.scss'; // Import the SCSS file
+import ProfileNav from "../ProfileNav";
 
 const ProfileForm = () => {
   const [personal, setPersonal] = useState({
@@ -114,6 +115,7 @@ const ProfileForm = () => {
   return (
     // Use the main container class, remove inline styles
     <div className="profile-form-container">
+      <ProfileNav/>
       <h2>Create Profile</h2>
 
       {/* Messages */}
