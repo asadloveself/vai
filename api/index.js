@@ -10,7 +10,7 @@ import upload from "./middleware/multer.js"
 
 dotenv.config()
 const PORT = process.env.PORT || 1525
-const MONGO_URI = process.env.MONGO_URI || process.env.MONGO_WEB_URI || 'mongodb+srv://vai:ILoveMe2&Only@vai.agcbtjy.mongodb.net/?retryWrites=true&w=majority&appName=Vai'
+const MONGO_URI = process.env.MONGO_URI || process.env.MONGO_WEB_URI || 'mongodb+srv://vai:ILoveMe2&Only@vai.agcbtjy.mongodb.net/vai?retryWrites=true&w=majority&appName=Vai'
 const Vai_READ_WRITE_TOKEN = process.env.Vai_READ_WRITE_TOKEN || "vercel_blob_rw_vijAcW1I5Mj77q82_r3l1cspy9njDwbN94eeHPFJui0jmUJ"
 const app = express()
 app.use(express.json())
