@@ -1,9 +1,14 @@
+@use 'sass:color'; // Import the color module at the top
+
 // --- Variables (Reuse or define) ---
 $primary-color: #4a90e2;
-$nav-bg: #4e4652af; // Light grey background for contrast
+// Use rgba for colors with alpha transparency for better browser compatibility
+// $nav-bg: #4e4652af; // Original: Hex with alpha
+$nav-bg: rgba(78, 70, 82, 0.69); // Correct: rgba(R, G, B, Alpha)
 $nav-link-color: #333;
 $nav-link-bg: #ffffff; // Pills background
-$nav-link-hover-bg: darken($nav-link-bg, 5%);
+// --- CORRECTED Line 6 ---
+$nav-link-hover-bg: color.adjust($nav-link-bg, $lightness: -5%); // Was: darken($nav-link-bg, 5%)
 $nav-link-active-bg: $primary-color;
 $nav-link-active-color: #ffffff;
 
@@ -12,16 +17,27 @@ $border-radius: 20px; // Rounded pills
 
 // --- Mixins ---
 @mixin transition($properties...) {
-  transition: $properties 0.25s ease-in-out;
+  // Ensure transition properties are specified correctly
+  transition-property: $properties;
+  transition-duration: 0.25s;
+  transition-timing-function: ease-in-out;
 }
 
-body{
+body {
+  // Consider moving global styles like body background to a more general stylesheet (e.g., base.scss or index.scss)
   background-image: url(./assets/cover.jpg);
-  background-size:cover;
+  background-size: cover;
+  background-repeat: no-repeat; // Add no-repeat typically
+  background-attachment: fixed; // Optional: Keep background fixed during scroll
+  background-position: center center; // Optional: Center the background
 }
-h1{
-  color:#ffffff
+h1 {
+  // Likewise, consider moving general element styles
+  color: #ffffff;
+  text-align: center; // Often desired for a main heading over the nav
+  margin-top: $spacing-unit * 2; // Add some space above the nav
 }
+
 // --- Navigation Styles ---
 nav.profile {
   background-color: $nav-bg;
@@ -32,16 +48,16 @@ nav.profile {
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  justify-content: center; // Center the ul inside the nav if nav is wider
   align-items: center;
-
 
   ul {
     list-style: none;
     padding: 0;
     margin: 0;
     display: flex;
-    justify-content: center;
+    justify-content: center; // Center items within the ul
+    flex-wrap: wrap; // Allow wrapping on smaller screens if needed
     gap: $spacing-unit; // Space between pills
   }
 
@@ -51,7 +67,7 @@ nav.profile {
 
   // Style the Link/NavLink component (renders as 'a')
   a {
-    display: block;
+    display: block; // Changed from inline-block for simpler spacing
     padding: ($spacing-unit * 0.6) ($spacing-unit * 1.4); // Pill padding
     color: $nav-link-color;
     background-color: $nav-link-bg;
@@ -59,9 +75,10 @@ nav.profile {
     border-radius: $border-radius; // Pill shape
     font-weight: 500;
     font-size: 0.9em;
+    white-space: nowrap; // Prevent text wrapping inside pills
     border: 1px solid #d0d0d0; // Subtle border
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-    @include transition(background-color, color, transform, box-shadow);
+    @include transition(background-color, color, transform, box-shadow, border-color); // Added border-color to transition
 
     &:hover {
       background-color: $nav-link-hover-bg;
@@ -69,19 +86,20 @@ nav.profile {
       box-shadow: 0 3px 5px rgba(0, 0, 0, 0.08);
     }
 
-     &:active { // Click feedback
-        transform: translateY(0px);
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    &:active { // Click feedback
+      transform: translateY(0px);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
     }
 
-
     // Active state (for NavLink)
+    // Combined &.active selectors for brevity
     &.active {
       background-color: $nav-link-active-bg;
       color: $nav-link-active-color;
       font-weight: 600;
-      border-color: transparent;
-      box-shadow: 0 2px 6px rgba(darken($primary-color, 10%), 0.3);
+      border-color: transparent; // Make border transparent instead of removing it to maintain layout
+      // --- CORRECTED Line 84 (approx) ---
+      box-shadow: 0 2px 6px rgba(color.adjust($primary-color, $lightness: -10%), 0.3); // Was: darken($primary-color, 10%)
     }
   }
 }
@@ -93,7 +111,7 @@ nav.profile {
     padding: ($spacing-unit * 0.5);
 
     ul {
-        gap: $spacing-unit * 0.5; // Less gap
+      gap: $spacing-unit * 0.5; // Less gap
     }
 
     a {

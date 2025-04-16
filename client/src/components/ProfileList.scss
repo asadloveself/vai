@@ -1,8 +1,12 @@
+// --- REQUIRED: Import Sass Modules ---
+@use 'sass:color';
+@use 'sass:math';
+
 // --- Variables ---
 $primary-color: #4a90e2;
 $secondary-color: #f5a623;
 $text-color: #444;
-$light-text-color: #777;
+$light-text-color: #777; // This is okay as a name if it's lighter than $text-color
 $border-color: #ddd;
 $card-bg: #ffffff;
 $error-color: #d0021b;
@@ -22,31 +26,38 @@ $breakpoint-lg: 992px;
 
 // --- Mixins ---
 @mixin transition($properties...) {
-  transition: $properties 0.3s ease-in-out;
+  // Ensure transition properties are specified correctly
+  transition-property: $properties;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
 }
 
 // --- Main Container ---
 .profile-list-container {
-  padding: $spacing-unit * 1.5 $spacing-unit;
+  padding: ($spacing-unit * 1.5) $spacing-unit;
   max-width: 1100px;
   margin: 0 auto;
-  font-family: sans-serif;
+  // Consider adding a more robust font stack (same as ProfileForm?)
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 
   h2 {
     text-align: center;
     color: $primary-color;
-    margin-bottom: $spacing-unit * 2.5;
+    margin-bottom: ($spacing-unit * 2.5);
     font-size: 2em;
-    font-weight: 300;
+    font-weight: 300; // Lighter weight is fine for list title
   }
 
   .error-message {
     color: $error-color;
-    background-color: lighten($error-color, 45%);
-    border: 1px solid lighten($error-color, 30%);
+    // --- UPDATED: Line 45 ---
+    background-color: color.adjust($error-color, $lightness: 45%); // Was: lighten($error-color, 45%)
+    // --- UPDATED: Line 46 ---
+    border: 1px solid color.adjust($error-color, $lightness: 30%); // Was: lighten($error-color, 30%)
     padding: $spacing-unit;
-    margin-bottom: $spacing-unit * 1.5;
-    border-radius: $border-radius / 2;
+    margin-bottom: ($spacing-unit * 1.5);
+    // --- UPDATED: Line 49 ---
+    border-radius: math.div($border-radius, 2); // Was: $border-radius / 2
     text-align: center;
   }
 }
@@ -76,25 +87,35 @@ $breakpoint-lg: 992px;
     background-color: $primary-color;
     color: white;
     font-weight: bold;
-    padding: $spacing-unit * 0.5 $spacing-unit;
-    border-radius: $border-radius / 2;
+    padding: ($spacing-unit * 0.5) $spacing-unit;
+    // --- UPDATED: Line 75 ---
+    border-radius: math.div($border-radius, 2); // Was: $border-radius / 2
     font-size: 1.1em;
+    line-height: 1; // Prevent extra space from line height
+    z-index: 1; // Ensure it's above other content if overlap occurs
   }
 
   // --- Card Sections (Personal & Nominee) ---
   .profile-section {
     margin-bottom: $spacing-unit * 2;
-    margin-top: $spacing-unit * 2.5; // Add space for serial number
+    // Use padding-top instead of margin-top to contain content within card padding
+    padding-top: $spacing-unit * 2.5; // Add space for serial number
+
+    &:first-child {
+      // If the serial number is always present, the first section might need less top padding
+      // padding-top: $spacing-unit * 2.5;
+    }
 
     &:last-child {
       margin-bottom: 0;
+      padding-bottom: 0; // Remove extra padding if needed
     }
 
     h3 {
       font-size: 1.3em;
       color: $primary-color;
       margin: 0 0 $spacing-unit 0;
-      padding-bottom: $spacing-unit * 0.5;
+      padding-bottom: ($spacing-unit * 0.5);
       border-bottom: 1px solid $border-color;
       font-weight: 500;
     }
@@ -103,31 +124,49 @@ $breakpoint-lg: 992px;
     .details-wrapper {
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
+      align-items: flex-start; // Default alignment for mobile
+      gap: $spacing-unit; // Add gap for spacing
 
       img {
-        display: block;
+        display: block; // Ensure img behaves like a block element
         width: $image-size;
         height: $image-size;
         object-fit: cover;
-        border-radius: 50%;
-        margin-bottom: $spacing-unit;
+        border-radius: 50%; // Circular image
+        // Removed margin-bottom, use gap in parent flex container
         border: 3px solid $border-color;
+        flex-shrink: 0; // Prevent image from shrinking in flex context
       }
 
       .info {
+        // Takes remaining space
+        flex-grow: 1;
+
         p {
-          margin: 0 0 $spacing-unit * 0.5 0;
+          margin: 0 0 ($spacing-unit * 0.5) 0;
           color: $text-color;
           line-height: 1.5;
+          font-size: 0.95em; // Slightly smaller text for details
 
           strong {
-            color: $light-text-color;
-            margin-right: $spacing-unit * 0.5;
-            display: inline-block;
-            min-width: 40px;
+            font-weight: 600; // Make labels slightly bolder
+            color: $text-color; // Use standard text color, maybe slightly darker?
+            // color: darken($text-color, 10%); // Optional: Darker label
+            margin-right: ($spacing-unit * 0.5);
+            display: inline-block; // Allows margin-right
+            min-width: 80px; // Increased min-width for better alignment
+            // text-align: right; // Optional: Align label text right
+          }
+
+          // Select the actual value text (assuming it follows the strong tag)
+          span {
+             color: $light-text-color;
           }
         }
+        // Remove margin from the last paragraph within info
+         p:last-child {
+             margin-bottom: 0;
+         }
       }
     }
   }
@@ -136,66 +175,95 @@ $breakpoint-lg: 992px;
   @media (min-width: $breakpoint-md) {
     padding: $spacing-unit * 2;
 
+    // Apply grid layout directly to the card for sections
+    display: grid;
+    grid-template-columns: 1fr 1fr; // Two equal columns for profile sections
+    gap: ($spacing-unit * 2.5);
+    align-items: start; // Align sections to the top
+
     .profile-section {
+      margin-bottom: 0; // Grid gap handles spacing
+      padding-top: $spacing-unit * 1.5; // Adjust top padding for grid layout
+
       .details-wrapper {
-        flex-direction: row;
-        align-items: center;
+        flex-direction: row; // Side-by-side image and info
+        align-items: flex-start; // Align items to top
+        gap: $spacing-unit * 1.5; // Adjust gap for row layout
 
         img {
-          margin-right: $spacing-unit * 1.5;
-          margin-bottom: 0;
+          // No margin needed due to gap
         }
       }
     }
-
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: $spacing-unit * 2.5;
-    align-items: start;
-
-    .profile-section {
-      margin-bottom: 0;
+     // Ensure serial number is still positioned correctly relative to the card grid container
+    .serial-number {
+        top: $spacing-unit * 1.5;
+        left: $spacing-unit * 1.5;
     }
+
   }
 
   @media (min-width: $breakpoint-sm) and (max-width: ($breakpoint-md - 1px)) {
+    // Tablet specific adjustments (if different from mobile default)
     .profile-section {
+       padding-top: $spacing-unit * 2; // Tablet top padding
       .details-wrapper {
         img {
-          width: $image-size-small;
+          width: $image-size-small; // Use smaller image size
           height: $image-size-small;
         }
       }
     }
+      // Adjust serial number padding/position if needed for tablet
+     .serial-number {
+        top: $spacing-unit * 0.75;
+        left: $spacing-unit * 0.75;
+        font-size: 1em;
+        padding: ($spacing-unit * 0.4) ($spacing-unit * 0.8);
+    }
   }
 
   @media (max-width: ($breakpoint-sm - 1px)) {
+    // Mobile specific adjustments (already mostly default, but refine here)
     padding: $spacing-unit;
 
     .serial-number {
-      font-size: 1em;
-      padding: $spacing-unit * 0.3 $spacing-unit * 0.7;
+      font-size: 0.9em; // Smaller font on mobile
+      padding: ($spacing-unit * 0.3) ($spacing-unit * 0.7);
+      top: $spacing-unit * 0.5;
+      left: $spacing-unit * 0.5;
     }
 
     .profile-section {
-      margin-top: $spacing-unit * 2;
+      padding-top: $spacing-unit * 2; // Mobile top padding
 
       h3 {
         font-size: 1.15em;
       }
 
       .details-wrapper {
-        align-items: center;
+        align-items: center; // Center items vertically on mobile
+        text-align: center; // Center text within info block
 
         img {
-          width: $image-size-small;
+          width: $image-size-small; // Smaller image
           height: $image-size-small;
+          margin-left: auto; // Center image via margin
+          margin-right: auto;
         }
 
-        .info p {
-          font-size: 0.9em;
+        .info {
+            width: 100%; // Allow info to take full width for centering text
+             p {
+                font-size: 0.9em;
+                strong {
+                    min-width: 60px; // Adjust min-width for mobile
+                }
+             }
         }
       }
     }
+     // Explicitly set single column for mobile if grid applied earlier
+    display: block; // Override grid layout for mobile
   }
 }
