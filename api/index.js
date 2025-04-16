@@ -31,7 +31,7 @@ app.use(cors());
 // IMPORTANT: Adjust the path 'client/build' to the actual location
 // of your React application's build output directory relative to this server.js file.
 // Common examples: '../client/build', '../frontend/dist', './build'
-const buildPath = path.join(__dirname, '../client/build'); // <--- ADJUST THIS PATH !!
+const buildPath = path.join(__dirname, '../client/dist'); // <--- ADJUST THIS PATH !!
 app.use(express.static(buildPath));
 // ---------------------------------------------
 
