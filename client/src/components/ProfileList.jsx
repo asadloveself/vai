@@ -46,12 +46,6 @@ const ProfileList = () => {
                   alt={`${profile.personal.name || 'Personal'}'s photo`}
                 />
               )}
-              <div className="info">
-                <p><strong>Name:</strong> {profile.personal.name || 'N/A'}</p>
-                <p><strong>Father:</strong> {profile.personal.father || 'N/A'}</p>
-                <p><strong>Mother:</strong> {profile.personal.mother || 'N/A'}</p>
-                <p><strong>Address:</strong> {profile.personal.address || 'N/A'}</p>
-              </div>
             </div>
           </div>
         </div>
