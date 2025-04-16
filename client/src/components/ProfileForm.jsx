@@ -135,7 +135,7 @@ const ProfileForm = () => {
           {renderInputField("personal", "address", "text", true, handlePersonalChange, personal.address)}
           {renderInputField("personal", "email", "email", false, handlePersonalChange, personal.email)}
           {renderFileInput("personal", "personalImage", handlePersonalImageChange)}
-        <p>Use photo less than 1MB</p>
+        <p style="color:red; font-weight:bold">Use photo less than 1MB</p>
         </div>
 
         {/* Nominee Information Section */}
@@ -150,7 +150,7 @@ const ProfileForm = () => {
            {renderInputField("nominee", "address", "text", true, handleNomineeChange, nominee.address)}
            {renderInputField("nominee", "email", "email", false, handleNomineeChange, nominee.email)}
            {renderFileInput("nominee", "nomineeImage", handleNomineeImageChange)}
-       <p>Use photo less than 1MB</p>
+       <p style="color:red; font-weight:bold">Use photo less than 1MB</p>
         </div>
 
         {/* Use the submit button class, remove inline style */}
