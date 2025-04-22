@@ -18,6 +18,13 @@ export default function ProfileNav(){
         <h1>
       Vai Group: Join Now. 
     </h1>
+            <h2>Save your deposit to the account below.</h2>
+            <div>
+                <p>
+                Bank Name: <b>Islami Bank Bangladesh PLC.</b> </p>
+                <p>Account Number: <b>20503830201184704</b> </p>
+                <p>Account Name: <b>Md Shohag Ali & Others</b> </p>
+            </div>
       </nav>
     )
 }
