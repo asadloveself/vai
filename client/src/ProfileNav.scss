@@ -37,6 +37,11 @@ h1 {
   text-align: center; // Often desired for a main heading over the nav
   margin-top: $spacing-unit * 2; // Add some space above the nav
 }
+h2{
+  color: #ffffff;
+}
+div>p{
+  color: #ffffff;}
 
 // --- Navigation Styles ---
 nav.profile {
