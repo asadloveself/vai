@@ -11,6 +11,9 @@ export default function ProfileNav(){
             {/* Use NavLink instead of Link */}
             <NavLink to="/user/join">Join</NavLink>
           </li>
+            <li>
+            <NavLink to="/">Home</NavLink>
+          </li>
         </ul>
         <h1>
       Vai Group: Join Now. 
