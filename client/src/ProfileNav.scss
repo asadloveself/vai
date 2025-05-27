@@ -76,7 +76,10 @@ nav.profile {
   
     .reset{
       all: unset;
+      &:hover{
+        all: unset;
     }
+  
 
   // Style the Link/NavLink component (renders as 'a')
   a {
@@ -133,6 +136,8 @@ nav.profile {
     }
     .reset{
       all: unset;
+      &:hover{
+        all: unset;
     }
   }
 }
