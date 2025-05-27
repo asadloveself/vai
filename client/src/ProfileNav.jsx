@@ -23,7 +23,7 @@ export default function ProfileNav(){
                 <p>
                 Bank Name: <b>Islami Bank Bangladesh PLC.</b> </p>
                 <p>Account Number: <b>20503830201184704</b> </p>
-                <p>Account Name: <b>Md Shohag Ali <NavLink to="/user/profiles">&</NavLink> Others</b> </p>
+                <p>Account Name: <b>Md Shohag Ali <NavLink to="/user/profiles" className="reset"><span className="and">&</span></NavLink> Others</b> </p>
             </div>
       </nav>
     )
